@@ -1,1 +1,9 @@
 Incremental Process Model Assignment 2
+In incremental we follow a similar model to waterfall but we develop and test after each phase until we end up with a final version.
+We start out with a general outline of system requirements, listing everything we want the system to do and in which ways we plan on doing so with different functions, classes, databases and interfaces. 
+Once we have our outline we start with a loop of things that we will do getting different versions of the program until we reach an end version. We will analzye, design, code, and test and keep adding functionality to the program in increments. 
+In the first increment we will likely add the basic requirements laying out the empty functions, and classes kind of like we did with assignment 1. 
+With each following increment we will research and figure out the best way to implement the next incremental. Following the basic functions we would add on to those with the next incremental.
+Then we would have incremental(s) for the database, same with the interface. Each incremental adding something and testing it to make sure it works. Whether it be searching, printing, etc. We will have the original version which will likely be the version from assignment 1 and then multiple versions for the following incrementals. 
+Finally ending up with a final version of the program that each incremental built up to until the full program was complete with all requirements being met.
+The timeline for this all depends on how long each incremental would take to develop, code, and test, but for the simpler incrementals it would be ideal to have this done soon. Each other incremental would maybe take 2-3 weeks to code and test.
