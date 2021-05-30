@@ -1,0 +1,13 @@
+Integration and Configuration Process Model Assignment 2
+This process model utilizes existing software and builds it into their system adding modifications for what they need it for.
+You would still need a basic outline for system requirements and specifications for the program and then you would want to find something online that resembles the idea of what you want to do. 
+Once you find something you simply make sure you can use it and that is is open source to be used and modified.
+Looking quickly online using github as my main point of reference there is many similar programs that others have made that model what we are trying to achieve. 
+I found this https://github.com/francoisjacquet/rosariosis online which is a projec that someone made. 
+This project has the same essential idea that we are trying to make having different classes for each member and then having many functions to do certain actions within the program/school system
+This is a much more complex project but it has a nice looking UI that we could potentially use or change and model our project after leaving a large majority of their program unused
+https://github.com/ian-mcnair/StudentDatabase/blob/master/MainApp.java
+The above github link is to a project that creates a SQL database of students and using java they import the database and create a similar program that you can display schedules, add students, teachers, etc/
+This would be a really  great project to model ours off of as it has features we need and it is a similar idea of using the database. 
+We can look at this to learn how to make the database and import it.
+Once we have an idea of what we want to take from exisiting projects we can take that test it in our own environment after adding the necessary changes and then add on to it whatever we need to be able to meet the system requirements.
