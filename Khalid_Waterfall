@@ -11,4 +11,6 @@ The integration phase will be include joining all of these units into one system
 Once the integration phase is completed the product will be ready to be demoed and released. If there are any issues in the system post release or demo the maintenance phase is the last phase that will be constant.
 In the maintenance phase if any errors or issues are found we would release patches to fix those errors.
 All of these phases will only happen once the previous phase is completed.
-The timeline for this model would be sequential finishing the first two phases within the first month of the course. The implementation and integration phases would take the longest as that is where the code is being done and the program is put together.
+The timeline for this model would be sequential finishing the first two phases within the first month of the course.
+The implementation and integration phases would take the longest as that is where the code is being done and the program is put together. Probably taking anywhere from June to the end of July.
+The deployment/demo phase would happen in August and Maintenance would come directly after deployment if needed.
