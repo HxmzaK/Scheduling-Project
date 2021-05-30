@@ -2,7 +2,7 @@ Waterfall Assignment 2
 With the waterfall process model the project would be split up into phases that would be done in sequential order. 
 This makes for a simple model to follow and it ensures that through each phase of the project a certain point is reached and completed.
 For this process the first task would be to layout all the requirements and things needed to develop the project. 
-In this case we will use the system overview and requirements that professor Rawlins has laid out for us to complete the project. So this Phase is already completed.
+In this case we will use the system overview and requirements that professor Rawlins has laid out for us to complete the project and add onto it clearly defining what it is we want to complete and have this program do. So this Phase is already completed.
 In the next phase of system design we must figure out as a group which language and which method of coding would be best to complete this project based on studying the first phase. This phase  would hopefully be completed  within the nxt week or two.
 The next phase is implementation where after the system design is figured out the system now begins development in small portions called units.
 In this unit testing it would be best to split the program up by each user, student, intstructor, and admin. Once these users are sorted out the next part would be to start implementing databases of both users and courses. 
