@@ -1,0 +1,35 @@
+Integration and Configuration Model:
+We will set the same outlie, same requirements.
+Feasibility Study: Object-oriented Programming, user interface  Yes, Budget Yes
+Requirement elicitation: Interview with President of the University, student service center. Talk to instructors and deans. Looking at existing system like Leopard Web and AUB Sis.
+Requirement Specifications:
+•	All users should be able to search for courses:
+o	All users should have an ID, first name, last name, and date of birth,
+o	Display all courses with CRN, date and time, how many credits, instructor and location.
+•	All students can see updates and their information:
+o	Able to see year status, tracking sheet, bill, transcript.
+o	Students can add, drop, and search courses.
+o	Students are able to access their schedule and print it.
+•	Instructors can add to their class and upgrade information:
+o	Instructors are able to see their schedule and print it.
+o	Instructors can check their class roster.
+o	Instructors can check their students’ grades.
+•	Admin can access all instructors and student’s information:
+o	Admin can add or remove user.
+o	Admin can search courses.
+o	Admin can add and remove courses from the system.
+o	Admin can see everything about students and instructors (ID, date of birth, schedule, bill, days attending, graduation year, status, department…).
+o	Admin can withdraw or add student to a course.
+o	Admin can set courses timing and access schedules.
+o	Admin can print and search courses and rosters.
+o	Admin can set working days for instructors. 
+Software Design and Implementation:
+We will look up for a similar model, open source where we can edit and add the features we want.
+I found on github this model where a similar student information system was made to access all student information. 
+We can add features and remove some to make our requested project. Modify and add as needed to the project.
+
+Software Validation:
+Make sure that the system doesn’t contain any bugs or errors and is as required from the customer. 
+Software Evolution:
+If new requirements and new changes, we can make changes from any part we would like to. New system is made.
+Timeframe: When the system is found, timeframe depends on the modified features and the new requirements set
