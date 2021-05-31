@@ -1,0 +1,11 @@
+Incremental Process:
+
+For the incremental process, an outline will be made and requirements will be set; therefore,  the software specification will be the same.
+For design and implementation, I will start with the admin who’s able to access and set everything. The admin can do all stated actions. He will start by adding courses into the system, put CRNs, and the location of each class.
+The admin then will be developed and tested.
+After testing the admin, I will design and develop the instructor; instructor can access all his information, which department he belongs to and can check which classes he will be teaching, and his schedule.
+After testing the instructor, we will add some features to the admin which are related to instructors. Then, we will make sure that admin and instructor are compatible together and there is no bugs and errors while testing them together. 
+We will then start by developing and designing the student. Once designed a student can access his information(ID, status, date of birth, first bill…). After testing the student as a unit, we will add some features to the admin and the instructor that are in relation with the student(class list, courses registered, roster, major, ID, grades and so on). All three components will be then tested.
+Validation will occur when all three components are working and there is no bugs and errors. A final version will be then uploaded.
+For the software evolution, we will check new requirements and any change can be done to satisfy the customer. The incremental process helps with updating and changing the system from any part that needs adjustment, no need to repeat all the process.
+The timeframe for this process will be depending on how many times the customer wants to make changes, it will be an open frame.
