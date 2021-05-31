@@ -1,0 +1,52 @@
+Waterfall model:  
+Software Specification:
+Feasibility Study: Object-oriented Programming, user interface  Yes, BudgetYes
+Requirement elicitation: Interview with President of the University, student service center. Talk to instructors and deans. Looking at existing system like Leopard Web and AUB Sis.
+Requirement Specifications:
+•	All users should be able to search for courses:
+o	All users should have an ID, first name, last name, and date of birth,
+o	Display all courses with CRN, date and time, how many credits, instructor and location.
+•	All students can see updates and their information:
+o	Able to see year status, tracking sheet, bill, transcript.
+o	Students can add, drop, and search courses.
+o	Students are able to access their schedule and print it.
+•	Instructors can add to their class and upgrade information:
+o	Instructors are able to see their schedule and print it.
+o	Instructors can check their class roster.
+o	Instructors can check their students’ grades.
+•	Admin can access all instructors and student’s information:
+o	Admin can add or remove user.
+o	Admin can search courses.
+o	Admin can add and remove courses from the system.
+o	Admin can see everything about students and instructors (ID, date of birth, schedule, bill, days attending, graduation year, status, department…).
+o	Admin can withdraw or add student to a course.
+o	Admin can set courses timing and access schedules.
+o	Admin can print and search courses and rosters.
+o	Admin can set working days for instructors. 
+Software Design and Implementation:
+Architectural Design-functions, classes, databases
+Interface- connecting subsystems and user interface
+Database design:
+Students: ID, name, last name, courses, transcript, status, graduation year, schedule
+Instructors: ID, name, last name, courses, transcript, class list, grades, schedule, roster, student information, final exams…
+Admin: all student and instructor information, all semesters’ courses, alumni transcripts, alumni, clubs list, organizations, work study student, housing and commuters….
+
+Software Validation:
+1-	Testing by component:
+•	Testing student
+•	Testing Instructor
+•	 Testing Admin
+2 - Test all three users together: check if no errors when integrating components together.
+3-  Present it to the customer and check if its accepted
+Software evolution:
+1-Check the whole system
+2-Propose new ideas and requirements
+3-Change the system to suit the new requirements 
+4-New system is made.
+
+
+
+
+
+
+
