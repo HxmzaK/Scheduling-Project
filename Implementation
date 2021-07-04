@@ -1,0 +1,392 @@
+#include <iostream> 
+#include <sqlite3.h> 
+#include <string> 
+#include <stdio.h>
+
+using namespace std;
+
+static int callback(void* data, int argc, char** argv, char** azColName)
+{
+	int i;
+
+	for (i = 0; i < argc; i++)
+	{
+		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+	}
+
+	printf("\n");
+
+	return 0;
+}
+
+
+int main(int argc, char** argv)
+{
+	sqlite3* DB;
+
+	/*******************************************************************
+	 Creating a table
+	 Create a string then pass the string into the sqlite3_exec function
+	********************************************************************/
+	string table = "CREATE TABLE COURSE("
+		"ID INTEGER PRIMARY KEY, "
+		"Title TEXT NOT NULL, "
+		"DEPT TEXT NOT NULL,"
+		"Time TEXT NOT NULL,"
+		"Days TEXT NOT NULL, "
+		"Semester TEXT NOT NULL,"
+		"Year INTEGER NOT NULL,"
+		"Credits INTEGER NOT NULL) ";
+
+
+
+
+	int exit = 0;
+
+	exit = sqlite3_open("assignment3.db", &DB);			//open the database
+
+	char* messageError;
+
+	// execute the create table command
+	// sqlite3_exec( pointer to database file, string for sql command, callback function (used to respond to queries, not used here), input to callback, error message address)
+	exit = sqlite3_exec(DB, table.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Create Table" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		cout << "Table created Successfully" << std::endl;
+	string table1 = "CREATE TABLE PREREQUISITE("
+		"COURSE ID INTEGER PRIMARY KEY, "
+		"PREREQUISITE COURSE ID INTEGER NOT NULL) ";
+	exit = sqlite3_exec(DB, table1.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Create Table" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		cout << "Table created Successfully" << std::endl;
+
+
+	string table2 = "CREATE TABLE INSTRUCTOR_CLASS("
+		"COURSE_ID INTEGER PRIMARY KEY, "
+		"INSTRUCTOR_ID INTEGER NOT NULL) ";
+	exit = sqlite3_exec(DB, table2.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Create Table" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		cout << "Table created Successfully" << std::endl;
+
+	string table3 = "CREATE TABLE STUDENT_COURSES("
+		"COURSE_ID INTEGER NOT NULL, "
+		"STUDENT_ID INTEGER NOT NULL) ";
+	exit = sqlite3_exec(DB, table3.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Create Table" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		cout << "Table created Successfully" << std::endl;
+
+	string table4 = "CREATE TABLE LOGIN("
+		"USER_EMAIL TEXT PRIMARY KEY, "
+		"USER_PASSWORD TEXT NOT NULL) ";
+
+	exit = sqlite3_exec(DB, table4.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Create Table" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		cout << "Table created Successfully" << std::endl;
+
+
+	/*******************************************************************
+	 Inserting values into a table.
+	 Create a string then pass the string into the sqlite3_exec function
+	********************************************************************/
+	// hard-code (push) a few values into the database - 
+	string sql("INSERT INTO COURSE VALUES(1234, 'APPLIED_PROGRAMMING','BSCO','8:00-9:20','TR','SUMMER21',2021,4);"
+		"INSERT INTO COURSE VALUES(1547, 'ADVANCED_CIRCUIT','BSCO','12:30-13:50','WF','SUMMER21',2021,4);"
+		"INSERT INTO COURSE VALUES(2237, 'COMPUTER_NETWORKS','BSCO','8:00-9:20','WF','SUMMER21',2021,4);"
+		"INSERT INTO COURSE VALUES(5623, 'ECONOMY','ECON','10:00-11:50','TR','SUMMER21',2021,4);"
+		"INSERT INTO COURSE VALUES(4237, 'PSYCHOLOGY','PSYC','17:00-18:50','MW','SUMMER21',2021,4);"
+	);
+
+
+
+	// execute the command
+	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+	string sql5("INSERT INTO COURSE VALUES(9870, 'OBJECTED_ORIENTED PROGRAMMING','BSCO','8:00-9:20','TR','FALL2020',2020,4);"
+		"INSERT INTO COURSE VALUES(6748, 'ANALOG CIRCUIT DESIGN','BSCO','12:30-13:50','WF','FALL2020',2020,4);"
+		"INSERT INTO COURSE VALUES(2554, 'COMPUTER ARCHITECTURE','BSCO','8:00-9:20','WF','FALL2020',2020,4);"
+		"INSERT INTO COURSE VALUES(5666, 'ENGLISH2','HUSS','10:00-11:50','TR','FALL2020',2020,4);"
+		"INSERT INTO COURSE VALUES(4427, 'MANAGEMENT','MGMT','17:00-18:50','MW','FALL2020',2020,4);"
+	);
+
+
+
+	// execute the command
+	exit = sqlite3_exec(DB, sql5.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql6("INSERT INTO PREREQUISITE VALUES(1234, 9870 );"
+		"INSERT INTO PREREQUISITE VALUES(1547, 6748);"
+		"INSERT INTO PREREQUISITE VALUES(2237, 9870);"
+		"INSERT INTO PREREQUISITE VALUES(5623, 5666);"
+		"INSERT INTO PREREQUISITE VALUES(4237, 5666);"
+
+	);
+
+
+
+	// execute the command
+	exit = sqlite3_exec(DB, sql6.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql7("INSERT INTO INSTRUCTOR_CLASS VALUES(1234, 20004);"
+		"INSERT INTO INSTRUCTOR_CLASS VALUES(1547, 20005);"
+		"INSERT INTO INSTRUCTOR_CLASS VALUES(2237, 20006);"
+		"INSERT INTO INSTRUCTOR_CLASS VALUES(5623, 20003);"
+		"INSERT INTO INSTRUCTOR_CLASS VALUES(4237, 20002);"
+
+	);
+
+
+
+	// execute the command
+	exit = sqlite3_exec(DB, sql7.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql8("INSERT INTO STUDENT_COURSES VALUES(1234, 10001);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 10001);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10001);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1547, 10002);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10002);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 10002);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 10002);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 10003);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10003);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 10003);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 10003);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 10004);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 10004);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10004);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 10004);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 10004);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 10005);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 10005);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 10005);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 10006);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 10006);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10006);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 10006);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 10007);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10007);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 10007);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 10008);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 10008);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 10008);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 10009);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 10009);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 100010);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 100010);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 100010);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 100010);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 100011);"
+		"INSERT INTO STUDENT_COURSES VALUES(1547, 100011);"
+		"INSERT INTO STUDENT_COURSES  VALUES(2237, 100011);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 100011);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 100011);"
+		"INSERT INTO STUDENT_COURSES  VALUES(5623, 100012);"
+		"INSERT INTO STUDENT_COURSES  VALUES(1234, 100012);"
+		"INSERT INTO STUDENT_COURSES  VALUES(4237, 100012);"
+
+	);
+
+
+
+
+
+	// execute the command
+	exit = sqlite3_exec(DB, sql8.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql13("INSERT INTO LOGIN VALUES('hamiltonm', 'hamiltonm30001');"
+		"INSERT INTO LOGIN VALUES('rubinv', 'rubinv30002');"
+		"INSERT INTO LOGIN VALUES('patrickn', 'patrickn20002');"
+		"INSERT INTO LOGIN VALUES('galileig', 'galileig20003');"
+		"INSERT INTO LOGIN VALUES('turinga', 'turina20004');"
+		"INSERT INTO LOGIN VALUES('boumank', 'boumank20005');"
+		"INSERT INTO LOGIN VALUES('bernoullid', 'bernoullid20006');"
+		"INSERT INTO LOGIN VALUES('newton', 'newton10001');"
+		"INSERT INTO LOGIN VALUES('curiem', 'curiem10002');"
+		"INSERT INTO LOGIN VALUES('teslan', 'teslan10003');"
+		"INSERT INTO LOGIN VALUES('notcool', 'notcool10004');"
+		"INSERT INTO LOGIN VALUES('vanneumannj', 'vanneumannj10005');"
+		"INSERT INTO LOGIN VALUES('hopperg', 'hopperg10006');"
+		"INSERT INTO LOGIN VALUES('jemisonm', 'jemisonm10007');"
+		"INSERT INTO LOGIN VALUES('deanm', 'deanm10008');"
+		"INSERT INTO LOGIN VALUES('faradaym', 'faradaym10009');"
+		"INSERT INTO LOGIN VALUES('lovelacea', 'lovelacea100010');"
+		"INSERT INTO LOGIN VALUES('alhadys', 'alhadys100011');"
+		"INSERT INTO LOGIN VALUES('alhadya', 'alhadya100012');"
+
+	);
+
+	// execute the command
+	exit = sqlite3_exec(DB, sql13.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql1("INSERT INTO STUDENT VALUES(100011,'SARA','HADY',2022,'BSCO','alhadys');"
+		"INSERT INTO STUDENT VALUES(100012,'ALI','HADY',2020,'BSCE','alhadya');"
+	);
+
+	exit = sqlite3_exec(DB, sql1.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql2("UPDATE ADMIN SET TITLE = 'Vice president' WHERE NAME= 'Vera' AND SURNAME='Rubin' ;");
+	exit = sqlite3_exec(DB, sql2.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql3("DELETE FROM INSTRUCTOR WHERE DEPT='BSEE';");
+	exit = sqlite3_exec(DB, sql3.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+	string sql14("SELECT * FROM STUDENT INNER JOIN STUDENT_COURSES ON STUDENT_COURSES.STUDENT_ID = STUDENT.ID; ;");
+	exit = sqlite3_exec(DB, sql14.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error Insert" << std::endl;
+		sqlite3_free(messageError);
+	}
+	else
+		std::cout << "Records created Successfully!" << std::endl;
+
+
+	/***********************************************
+	 print all data in the table with SELECT * FROM
+	 create string with query then execute
+	 **********************************************/
+	string query = "SELECT * FROM COURSE;";
+
+	cout << endl << query << endl;		//print the string to screen
+
+	// you need the callback function this time since there could be multiple rows in the table
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+
+	query = "SELECT * FROM  STUDENT;";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+
+	query = "SELECT * FROM  ADMIN;";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+
+	query = "SELECT * FROM  INSTRUCTOR;";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+	
+
+	query = "SELECT * FROM  PREREQUISITE;";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+
+	query = "SELECT * FROM  INSTRUCTOR_CLASS;";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+
+	query = "SELECT * FROM  STUDENT_COURSES;";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+	
+	query = "SELECT * FROM PREREQUISITE INNER JOIN COURSE ON PREREQUISITE.COURSE_ID = COURSE.ID ; ";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+
+	query = "SELECT * FROM STUDENT INNER JOIN STUDENT_COURSES ON STUDENT_COURSES.STUDENT_ID = STUDENT.ID INNER JOIN COURSES ON COURSE_ID=STUDENT_COURSES.COURSE_ID INNER JOIN INSTRUCTOR_CLASS ON INSTRUCTOR_CLASS.COURSE_ID = COURSE.ID INNER JOIN INSTRUCTOR ON INSTRUCTOR.ID = INSTRUCTOR_CLASS.INSTRUCTOR.ID WHERE INSTRUCTOR.ID = 20003 ; ";
+	cout << endl << query << endl;
+	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
+	sqlite3_close(DB);
+
+	return 0;
+}
+
+
