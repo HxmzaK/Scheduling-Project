@@ -2,6 +2,7 @@
 #include <sqlite3.h> 
 #include <string> 
 #include <stdio.h>
+#include <stdlib.h>
   
 using namespace std; 
   
@@ -58,10 +59,10 @@ public:
         void menu()
         {
             cout << endl;
-            selection = 0;
+            int selection = 0;
             cout << " Please choose from the following options - \n";
             cout << " 1. Login. \n";
-            cout << " 2. Exit.\n""
+            cout << " 2. Exit.\n";
             cin >> selection;
         
             if (selection == 1)
@@ -70,11 +71,9 @@ public:
             }
             else if (selection == 2)
             {
-                  exit ();
+                  exit(0);
             }
         }
-           
-
     string getFirst() { return firstName; }  //get functions
     string getLast() { return lastName; }
     string getID() { return idNumber; }
@@ -83,7 +82,9 @@ public:
 class Student : public User
 {
     protected:
-
+    int gradYear;
+    string major;
+    string email;
     public:
         Student(string name1, string name2, string ID) :User(name1, name2, ID) {} //constructor for student class
         sqlite3* DB; 
@@ -91,12 +92,36 @@ class Student : public User
         
         void searchCourse()
         {
+        
+        int exit = 0;
+		
+        exit = sqlite3_open("assignment5.db", &DB);			//open the database
              string StudentSearch = "SELECT * FROM COURSES;"; 
    
-             cout << endl << StudentSearch << endl;		//print the                         string to screen
+             cout << endl << StudentSearch << endl;		//print the                     string to screen
 
              //you need the callback function this time since there               could be multiple rows in the table
-	           sqlite3_exec(DB, StudentSearch.c_str(), callback, NULL, NULL);
+	           sqlite3_exec(DB, StudentSearch.c_str(), callback, NULL, NULL);   
+            
+            sqlite3_close(DB);  
+        }
+        void searchCRNStu()
+        {
+              
+            int exit = 0;
+            string userInput;
+		
+            exit = sqlite3_open("assignment5.db", &DB);			//open the database
+            cout << "Type in a CRN: ";
+            cin >> userInput;
+            string CRNSearchStu = "SELECT * FROM COURSES WHERE CRN = " + userInput;
+            
+            cout << endl << CRNSearchStu << endl;		//print the                     string to screen
+
+             //you need the callback function this time since there               could be multiple rows in the table
+	           sqlite3_exec(DB, CRNSearchStu.c_str(), callback, NULL, NULL);   
+            
+            sqlite3_close(DB);  
         }
         void addDrop()
         {
@@ -110,36 +135,65 @@ class Student : public User
 class Instructor : public User
 {
     protected:
-
+    string title;
+    int yearofHire;
+    string dept;
+    string email;
     public:
         Instructor(string name1, string name2, string ID) :User(name1, name2, ID) {} //constructor for instructor class
+         sqlite3* DB; 
         ~Instructor(){} //destructor for instructor class
         
-        void printScheduleInstruct()
+        void viewScheduleInstruct()
         {
-            cout << "Printing Schedule.\n";
+            cout << "Viewing Schedule.\n";
         }
-        void printRoster()
+        void viewRoster()
         {
-            cout << "Printing Class List.\n";
+            cout << "Viewing Class List.\n";
         }
         void classSearch()
         {
+             int exit = 0;
+		
+            exit = sqlite3_open("assignment5.db", &DB);			//open the database
             string InstructorSearch = "SELECT * FROM COURSES;"; 
    
              cout << endl << InstructorSearch << endl;		//print the                         string to screen
 
              //you need the callback function this time since there               could be multiple rows in the table
-	           sqlite3_exec(DB, StudentSearch.c_str(), callback, NULL, NULL);
+	           sqlite3_exec(DB, InstructorSearch.c_str(), callback, NULL, NULL);
+            sqlite3_close(DB); 
         }
+        void searchCRNIns()
+        {
+            int exit = 0;
+            string userInput;
+		
+            exit = sqlite3_open("assignment5.db", &DB);			//open the database
+            cout << "Type in a CRN: ";
+            cin >> userInput;
+            string CRNSearchIns = "SELECT * FROM COURSES WHERE CRN = " + userInput;
+            
+            cout << endl << CRNSearchIns << endl;		//print the                     string to screen
+
+             //you need the callback function this time since there               could be multiple rows in the table
+	           sqlite3_exec(DB, CRNSearchIns.c_str(), callback, NULL, NULL);   
+            
+            sqlite3_close(DB);
+        }
+        
 };        
 
 class Admin : public User
 {
     protected:
-
+    string title;
+    string office;
+    string email;
     public:
         Admin(string name1, string name2, string ID) :User(name1, name2, ID) {} //constructor for admin class
+        sqlite3* DB; 
         ~Admin(){} //desctructor for admin class
         
         void addCourse()
@@ -151,149 +205,239 @@ class Admin : public User
            
             cout << "Removing Course.\n";
         }
-        void addRemoveUser()
+        void addRemoveInstructor()
         {
           
-            cout << "Adding/Removing user.\n"; 
+            cout << "Adding/Removing Instructor.\n"; 
         }
         void addRemoveStudent()
         {
             cout << "Adding/Removing Student from Course.\n";
         }
-        void SearchPrint()
+        void searchAdmin()
         {
-            cout << "Searching and Printing.\n";
+            int exit = 0;
+		
+            exit = sqlite3_open("assignment5.db", &DB);			//open the database
+            string AdminSearch = "SELECT * FROM COURSES;"; 
+   
+             cout << endl << AdminSearch << endl;		//print the                         string to screen
+
+             //you need the callback function this time since there               could be multiple rows in the table
+	           sqlite3_exec(DB, AdminSearch.c_str(), callback, NULL, NULL);
+            sqlite3_close(DB); 
+        }
+        
+        void searchCRNAdm()
+        {
+            int exit = 0;
+            string userInput;
+		
+            exit = sqlite3_open("assignment5.db", &DB);			//open the database
+            cout << "Type in a CRN: ";
+            cin >> userInput;
+            string CRNSearchAdm = "SELECT * FROM COURSES WHERE CRN = " + userInput;
+            
+            cout << endl << CRNSearchAdm << endl;		//print the                     string to screen
+
+             //you need the callback function this time since there               could be multiple rows in the table
+	           sqlite3_exec(DB, CRNSearchAdm.c_str(), callback, NULL, NULL);   
+            
+            sqlite3_close(DB);
         }
 };
 int main(int argc, char** argv) 
 { 
-    sqlite3* DB; 
-    	
-	/*******************************************************************	
-	 Creating a table
-	 Create a string then pass the string into the sqlite3_exec function
-	********************************************************************/
-    string table = "CREATE TABLE COURSES("
-                   "CRN INTEGER PRIMARY KEY, "
-                   "TITLE TEXT NOT NULL, "
-                   "DEPT TEXT NOT NULL, "
-                   "TIME TEXT NOT NULL, "
-                   "DAYS TEXT NOT NULL, " 
-                   "SEMESTER TEXT NOT NULL, "
-                   "YEAR INTEGER NOT NULL, " 
-                   "CREDITS TEXT NOT NULL); "; 
-    	
-	int exit = 0;
-		
-    exit = sqlite3_open("assignment3.db", &DB);			//open the database
-		
-	char* messageError; 
-	
-	// execute the create table command
-	// sqlite3_exec( pointer to database file, string for sql command, callback function (used to respond to queries, not used here), input to callback, error message address)
-    exit = sqlite3_exec(DB, table.c_str(), NULL, 0, &messageError); 
-  
-   	if (exit != SQLITE_OK) 
-	{ 
-        std::cerr << "Error Create Table" << std::endl; 
-       	sqlite3_free(messageError); 
-    } 
-    else
-        cout << "Table created Successfully" << std::endl; 
+    sqlite3* DB; 	
+	  
+    int exit = 0;
+    int loginChoice;
+    string passwordStudent;
+    string passwordInstructor;
+    string passwordAdmin;
+    string usernameStudent;
+    string usernameInstructor;
+    string usernameAdmin;
+    int studentChoice;
+    int instructorChoice;
+    int adminChoice;
+		int stuLoop = 0;
+    int insLoop = 0;
+    int admLoop = 0;
+    exit = sqlite3_open("assignment5.db", &DB);			//open the database
+
+    sqlite3_close(DB); 
+       
+        Student *myStudent = new Student("","","");      //creating a pointer for classes in       order to call functions
         
-        /*******************************************************************
-	 Inserting values into a table.
-	 Create a string then pass the string into the sqlite3_exec function
-	********************************************************************/
-	// hard-code (push) a few values into the database - NOTE you can create a single string with multiple INSERT commands
-	string sql("INSERT INTO COURSES VALUES(32222, 'Computer Networks For Engineers', 'BCOS', '8:00am-9:20am', 'WF', 'Summer', 2021, '4');"
-		"INSERT INTO COURSES VALUES(32276, 'Network Theory II', 'BSAS', '5:00pm-6:50pm', 'M', 'Summer', 2021, '4');"
-		"INSERT INTO COURSES VALUES(32315, 'Advanced Digital Circuit Design', 'BSEE', '12:30pm-1:50pm', 'WF', 'Summer', 2021, '4');"
-		"INSERT INTO COURSES VALUES(32536, 'Applied Programming Concepts', 'BSCO', '8:00am-8:50am', 'M', 'Summer', 2021, '4');"
-		"INSERT INTO COURSES VALUES(32726, 'Internet Of Things', 'BSME', '12:00pm-1:50pm', 'M', 'Summer', 2021, '4');"
-	);
-
-	// execute the command for inserting courses
-	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
-
-	if (exit != SQLITE_OK) 
-	{
-		std::cerr << "Error Insert" << std::endl;
-		sqlite3_free(messageError);
-	}
-	else
-		std::cout << "Records Created Successfully!" << std::endl;
-   
-   string test = "SELECT TITLE, TIME, DAYS, SEMESTER, YEAR, CREDITS FROM COURSES;"; 
-   
-   cout << endl << test << endl;		//print the string to screen
-
-	// you need the callback function this time since there could be multiple rows in the table
-	sqlite3_exec(DB, test.c_str(), callback, NULL, NULL);
-   
-   string query = "SELECT c.CRN, c.TITLE, c.DEPT, i.SURNAME AS 'Professor' FROM COURSES c LEFT JOIN INSTRUCTOR i ON c.DEPT = i.DEPT;";
-   
-	 cout << endl << query << endl;		//print the string to screen
-
-	// you need the callback function this time since there could be multiple rows in the table
-	sqlite3_exec(DB, query.c_str(), callback, NULL, NULL);
- 
- // hard-code (push) a few values into the database - NOTE you can create a single string with multiple INSERT commands
-	string student("INSERT INTO STUDENT VALUES(10000, 'Hamza', 'Khalid', '2022', 'BSCO', 'khalidh');"
-		"INSERT INTO STUDENT VALUES(10011, 'Hiba', 'Shamim', '2021', 'ISOM', 'shamimh');");
-		
-
-	// execute the command for inserting new students
-	exit = sqlite3_exec(DB, student.c_str(), NULL, 0, &messageError);
-
-	if (exit != SQLITE_OK) 
-	{
-		std::cerr << "Error Insert" << std::endl;
-		sqlite3_free(messageError);
-	}
-	else
-		std::cout << "Records Inserted Successfully!" << std::endl;
-   
-   string instructor("DELETE FROM INSTRUCTOR WHERE ID = 20004;");
-   
-   	// execute the command for removing instructors
-	exit = sqlite3_exec(DB, instructor.c_str(), NULL, 0, &messageError);
-
-	if (exit != SQLITE_OK) 
-	{
-		std::cerr << "Error Delete" << std::endl;
-		sqlite3_free(messageError);
-	}
-	else
-		std::cout << "Record Deleted Successfully!" << std::endl;
-
-
-  string admin("UPDATE ADMIN SET TITLE = 'Vice-President' WHERE ID = 30002;");
-   
-   	// execute the command for updating admins
-	exit = sqlite3_exec(DB, admin.c_str(), NULL, 0, &messageError);
-
-	if (exit != SQLITE_OK) 
-	{
-		std::cerr << "Error Update" << std::endl;
-		sqlite3_free(messageError);
-	}
-	else
-		std::cout << "Record Updated Successfully!" << std::endl;
-   
-   string classes("ALTER TABLE STUDENT ADD CLASS1 INTEGER(5);" "ALTER TABLE STUDENT ADD CLASS2 INTEGER(5);" "ALTER TABLE STUDENT ADD CLASS3 INTEGER(5);" "ALTER TABLE STUDENT ADD CLASS4 INTEGER(5);" "ALTER TABLE STUDENT ADD CLASS5 INTEGER(5);");
-   
-   	// execute the command for altering Student table to hold class info
-	exit = sqlite3_exec(DB, classes.c_str(), NULL, 0, &messageError);
-
-	if (exit != SQLITE_OK) 
-	{
-		std::cerr << "Error Alter" << std::endl;
-		sqlite3_free(messageError);
-	}
-	else
-		std::cout << "Record Altered Successfully!" << std::endl;
-   
-   sqlite3_close(DB); 
-   	return 0; 
+        Instructor *myInstructor = new Instructor("","","");
+        
+        Admin *myAdmin = new Admin("","","");
+        
+        cout << "-----------------------------\n";
+        cout << "Welcome to BeepBoopBoard!\n";
+        cout << "1. Login as Student.\n";
+        cout << "2. Login as Instructor.\n";
+        cout << "3. Login as Admin.\n";
+        cin >> loginChoice;
+        
+        if(loginChoice == 1)
+        {
+            cout << "-----------------------------\n";
+            cout << "Sign in as Student.\n";
+            cout << "Username: ";
+            cin >> usernameStudent;
+            cout << "Password: "; //This portion of the code is Sara's she was responsible for logging in and logging out. 
+            cin >> passwordStudent;// This code should check a section of the database where a username and password would be stored for each student admin and instructor
+            cout << "-----------------------------\n";
+            cout << "Login Successful!\n"; //this is assuming that the login info was correct despite not actually checking a database.
+            while(stuLoop == 0)
+            {
+              cout << "-----------------------------\n";
+              cout << "1. Add/Drop Course.\n";
+              cout << "2. Search Courses.\n";
+              cout << "3. Search Course Based On CRN.\n";
+              cout << "4. View Schedule.\n";
+              cout << "5. Logout.\n";
+              cin >> studentChoice;
+              cout << "-----------------------------\n";
+              if (studentChoice == 1)
+              {
+                   myStudent->addDrop(); //currently just prints string saying adding dropping courses because this is sara's part and she did not give me any code.
+                   stuLoop = 0;
+              }
+              else if (studentChoice == 2)
+              {
+                   myStudent->searchCourse();
+                   stuLoop = 0;
+              }
+              else if(studentChoice == 3)
+              {
+                   myStudent->searchCRNStu();
+                   stuLoop = 0;
+              }
+              else if(studentChoice == 4)
+              {
+                   myStudent->printSchedule();
+                   stuLoop = 0;
+              }
+              else if(studentChoice == 5)
+              {
+                   cout << "Logout Successful!\n";
+                   cout << "-----------------------------\n";
+                   return 0;
+              }    
+            } 
+        }
+        else if(loginChoice == 2)
+        {
+            cout << "-----------------------------\n";
+            cout << "Sign in as Instructor.\n";
+            cout << "Username: ";
+            cin >> usernameInstructor;
+            cout << "Password: "; //This portion of the code is Sara's she was responsible for logging in and logging out. 
+            cin >> passwordInstructor;// This code should check a section of the database where a username and password would be stored for each student admin and instructor
+            cout << "-----------------------------\n";
+            cout << "Login Successful!\n"; //this is assuming that the login info was correct despite not actually checking a database.
+            while(insLoop == 0)
+            {
+              cout << "-----------------------------\n";
+              cout << "1. View Schedule.\n";
+              cout << "2. View Course Roster.\n";
+              cout << "3. Search Courses.\n";
+              cout << "4. Search Course Based On CRN.\n";
+              cout << "5. Logout.\n";
+              cin >> instructorChoice;
+              cout << "-----------------------------\n";
+              if (instructorChoice == 1)
+              {
+                   myInstructor->viewScheduleInstruct(); //currently just prints string saying viewing schedule because this is sara's part and she did not give me any code.
+                   insLoop = 0;
+              }
+              else if (instructorChoice == 2)
+              {
+                   myInstructor->viewRoster();
+                   insLoop = 0;
+              }
+              else if(instructorChoice == 3)
+              {
+                    myInstructor->classSearch();
+                   insLoop = 0;
+              }
+              else if(instructorChoice == 4)
+              {
+                   myInstructor->searchCRNIns();
+                   insLoop = 0;
+              }
+              else if(instructorChoice == 5)
+              {
+                   cout << "Logout Successful!\n";
+                   cout << "-----------------------------\n";
+                   return 0;
+              }    
+            } 
+        }
+        else if(loginChoice == 3)
+        {
+            cout << "-----------------------------\n";
+            cout << "Sign in as Admin.\n";
+            cout << "Username: ";
+            cin >> usernameAdmin;
+            cout << "Password: "; //This portion of the code is Sara's she was responsible for logging in and logging out. 
+            cin >> passwordAdmin;// This code should check a section of the database where a username and password would be stored for each student admin and instructor
+            cout << "-----------------------------\n";
+            cout << "Login Successful!\n"; //this is assuming that the login info was correct despite not actually checking a database.
+            while(admLoop == 0)
+            {
+               cout << "-----------------------------\n";
+               cout << "1. Add Course.\n";
+               cout << "2. Remove Course.\n";
+               cout << "3. Add/Remove Instructor.\n";
+               cout << "4. Add/Remove Student From Course.\n";
+               cout << "5. Search Courses.\n";
+               cout << "6. Search Course Based On CRN.\n";
+               cout << "7. Logout.\n";
+               cin >> adminChoice;
+               cout << "-----------------------------\n";
+               if (adminChoice == 1)
+               {
+                    myAdmin->addCourse(); //currently just prints string saying viewing schedule because this is sara's part and she did not give me any code.
+                    admLoop = 0;
+               }
+               else if (adminChoice == 2)
+               {
+                    myAdmin->removeCourse();
+                    admLoop = 0;
+               }
+               else if(adminChoice == 3)
+               {
+                    myAdmin->addRemoveInstructor();
+                    admLoop = 0;
+               }
+               else if(adminChoice == 4)
+               {
+                    myAdmin->addRemoveStudent();
+                    admLoop = 0;
+               }
+               else if(adminChoice == 5)
+               {
+                    myAdmin->searchAdmin(); 
+                    admLoop = 0;
+               }
+               else if(adminChoice == 6)
+               {
+                    myAdmin->searchCRNAdm();
+                    admLoop = 0;
+               }
+               else if(adminChoice == 7)
+               {
+                    cout << "Logout Successful!\n";
+                    cout << "-----------------------------\n";
+                    return 0;
+               }    
+            } 
+        }
+        
+          
+      return 0;
 }
